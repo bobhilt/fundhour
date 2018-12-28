@@ -13,6 +13,7 @@ class Donor
 
     def save
         # implement datastore-level upsert when needed. Returns "saved" object.
+        @created_at = @created_at || Time.now
         self
     end
 

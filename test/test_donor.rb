@@ -3,7 +3,7 @@ require_relative '../bin/donor'
 class TestDonor < Minitest::Test
 
     def donor_factory(id)
-        #ToDo: add faker for generating better attributes
+        #ToDo: add faker gem or similar for generating better attributes
         Donor.new({id: id, 
                     name:{first_name: "John#{id}",
                         last_name: "Adams#{id}"
@@ -41,14 +41,8 @@ class TestDonor < Minitest::Test
     def test_donor_save
         donor = donor_factory(44)
         assert_equal(donor, donor.save) 
+        assert_in_delta(Time.now, donor.created_at)
         assert_equal(donor.contact_info[:email], 'john.adams44@example.com')
     end
 
 end
-=begin
-id
-created_at (Time.now)
-name {first, last}
-contact_info {phone, email}    
-=end
-    

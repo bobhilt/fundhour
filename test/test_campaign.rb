@@ -2,6 +2,7 @@ require_relative '../bin/campaign'
 require 'date'
 
 class TestCampaign < Minitest::Test
+
     def campaign_factory(id, group_id)
         Campaign.new({id: id,
             title: "Campaign #{id}",
@@ -14,7 +15,7 @@ class TestCampaign < Minitest::Test
                     campaign_end: Date.today + 37,
                     status: "planning",
                     manager: "Mary Madison#{id}",
-                    description: "For basic program costs"
+                    description: "For #{group_id} basic program costs"
                     }
             })
     end
@@ -30,15 +31,17 @@ class TestCampaign < Minitest::Test
 
         assert_equal(1, campaign.id)
         assert_equal(22, campaign.group[:id])
+        assert_equal('Campaign 1', campaign.title)
         assert_equal(10000, campaign.goal_amount)
-        #ToDo: Etc. for other properties
     end
 
     def test_campaign_attributes_property
         campaign = campaign_factory(2, 33)
 
         assert_equal('Mary Madison2', campaign.attributes[:manager])
-        #ToDo: etc, for other attribute values
+        assert_equal(Date.today + 7, campaign.attributes[:campaign_start])
+        assert_equal(Date.today + 37, campaign.attributes[:campaign_end])
+        assert_match(/For 33 basic/, campaign.attributes[:description])
     end
 
     def test_method_responses
